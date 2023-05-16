@@ -1,10 +1,10 @@
 <template>
     <div class="box" id="heading">
-      <h1>{{ getDate}}</h1>
+      <h1>{{ getDate()}}</h1>
   
       <div class="box">
-        <div v-for="item in getNewListItems" :key="item.id" class="item">
-          <input type="checkbox" :id="'item-' + item.id" @change="deleteItem(item.id)">
+        <div v-for="item in getNewListItems" :key="item.id" class="item" :class="{'checked':item.id === checkedItemId}">
+          <input type="checkbox" :id="'item-' + item.id" :checked="item.id === checkedItemId" @change="removeItem(item.id)"> 
           <p>{{ item }}</p>
          
         </div>
@@ -22,11 +22,12 @@
   import { mapGetters, mapActions } from 'vuex';
   export default {
    computed:{
-   ...mapGetters(['getNewListItems','getDate']),
+   ...mapGetters(['getNewListItems']),
    },
     data (){
         return{
             newItem:'',
+            checkedItemId:null,
         }
     },
     methods: {
@@ -37,9 +38,18 @@
             this.newItem = "";
         }
        },
+       getDate(){
+        let today = new Date();
+            let options = {
+                weekday:"long",
+                day:"numeric",
+                month:"long"
+            };
+            return today.toLocaleDateString("en-US", options)
+       },
        deleteItem(id) {
-        this.removeItem(id);
-       } 
+    this.removeItem(id);
+  },
       
  
     }
@@ -146,6 +156,7 @@ footer {
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
 }
+
 
   </style>
  
