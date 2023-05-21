@@ -7,24 +7,16 @@ const store = createStore({
             newItem:'',
         };
     },
-    mutations:{
-        addItem(state, newItem) {
-            if(newItem.trim() !== '') {
-                state.newListItems.push(newItem);
-                state.newItem = '';
-            }
-            
-        },
-        removeItem(state,index){
-            state.newListItems.splice(index,1);
-        }
-    },
+   
     actions:{
-        addItem({commit},newItem) {
-            commit('addItem',newItem.trim());
+        addItem({state},newItem) {
+          if(newItem.trim() !== ''){
+            state.newListItems.push(newItem);
+            state.newItem = '';
+          }
         },
-        removeItem({ commit }, index) {
-            commit('removeItem', index);
+        removeItem({ state }, index) {
+            state.newListItems.splice(index, 1);
           },
       
     },
